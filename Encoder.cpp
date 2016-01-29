@@ -11,17 +11,55 @@
 // - - - - - - - - - - - - - - - - - - -
 // - - - - Encoder CONSTRUCTOR - - - - -
 // - - - - - - - - - - - - - - - - - - -
-EncMotControl::EncMotControl(int pinSingalA, int pin pinSignalB)
+Encoder::Encoder(int pinSignalA, int pinSignalB)
 {
     _pinSignalA = pinSignalA;
     _pinSignalB = pinSignalB;
+    count = 0;
 }
 
 // - - - - - - - - - - - - - - - - - - -
 // - - - - - Encoder UPDATE  - - - - - -
 // - - - - - - - - - - - - - - - - - - -
-void EncMotControl::update()
+void Encoder::update()
 {
-    //CODE
+    int a = digitalRead(_pinSignalA);
+    int b = digitalRead(_pinSignalB);
+    
+    if(_state == 0){
+        if(a){
+            _state = 1;
+        }else if(b){
+            _state = 3;
+        }
+    }else if(_state == 1){
+        if(a){
+            _state = 2;
+            currentRot = 0;
+        }else{
+            _state = 0;
+        }
+    }else if(_state == 3){
+        if(b){
+            _state = 4;
+            currentRot = 1;
+        }else{
+            _state = 0;
+        }
+    }else if(_state == 2){
+        if(b){
+            count--;
+            _state = 5;
+        }
+    }else if(_state == 4){
+        if(a){
+            count++;
+            _state = 5;
+        }
+    }else if(_state == 5){
+        if(!a && !b){
+            _state = 0;
+        }
+    }
 }
 

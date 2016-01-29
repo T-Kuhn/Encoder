@@ -2,7 +2,7 @@
   Encoder.cpp - A small motor encoder library for the Arduino
   prototyping platform. This library provides a way to evaluate
   the A and B signal of a DC motor encoder. Created by Tobias Kuhn, 
-  Sapporo, February 29, 2016.Å@Released into the public domain.
+  Sapporo, February 29, 2016. Released into the public domain.
   */
 
 #include "Arduino.h"

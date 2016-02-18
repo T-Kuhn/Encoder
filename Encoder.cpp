@@ -11,11 +11,18 @@
 // - - - - - - - - - - - - - - - - - - -
 // - - - - Encoder CONSTRUCTOR - - - - -
 // - - - - - - - - - - - - - - - - - - -
-Encoder::Encoder(int pinSignalA, int pinSignalB)
+Encoder::Encoder(int pinSignalA, int pinSignalB, int debugOut1, int debugOut2)
 {
     _pinSignalA = pinSignalA;
     _pinSignalB = pinSignalB;
+    _debugOut1 = debugOut1; 
+    _debugOut2 = debugOut2;
+    pinMode(_pinSignalA, INPUT);
+    pinMode(_pinSignalB, INPUT);
+    pinMode(_debugOut1, OUTPUT);
+    pinMode(_debugOut2, OUTPUT);
     count = 0;
+    _state = 0;
 }
 
 // - - - - - - - - - - - - - - - - - - -
@@ -25,7 +32,12 @@ void Encoder::update()
 {
     int a = digitalRead(_pinSignalA);
     int b = digitalRead(_pinSignalB);
-    
+   
+    //debug!
+    //digitalWrite(_debugOut1, a);
+    //digitalWrite(_debugOut2, b);
+    //debug!
+
     if(_state == 0){
         if(a){
             _state = 1;
@@ -47,17 +59,35 @@ void Encoder::update()
             _state = 0;
         }
     }else if(_state == 2){
-        if(b){
-            count--;
+        if(a){
+        //do nothing
+        }else if(b){
             _state = 5;
+        }else{
+            //go back to 0 in the case "no a and no b"
+            _state = 0;
         }
     }else if(_state == 4){
-        if(a){
-            count++;
-            _state = 5;
+        if(b){
+            //do nothing
+        }else if(a){
+            _state = 6;
+        }else{
+            //go back to 0 in the case "no a and no b"
+            _state = 0;
         }
     }else if(_state == 5){
-        if(!a && !b){
+        if(a && !b){
+            _state = 2;
+        }else if(!a && !b){
+            count--;
+            _state = 0;
+        }
+    }else if(_state == 6){
+        if(!a && b){
+            _state = 4;
+        }else if(!a && !b){
+            count++;
             _state = 0;
         }
     }

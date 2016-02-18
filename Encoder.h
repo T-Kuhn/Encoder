@@ -15,7 +15,7 @@
 class Encoder
 {
     public:
-        Encoder(int pinSignalA, int pinSignalB);
+        Encoder(int pinSignalA, int pinSignalB, int debugOut1, int debugOut2);
         void update();
         int count;
         int currentRot;
@@ -25,6 +25,8 @@ class Encoder
     private:
         int _pinSignalA;
         int _pinSignalB;
+        int _debugOut1;
+        int _debugOut2;
         int _state;
         // _state:
         // 0 -> waiting for first rising edge

@@ -11,16 +11,12 @@
 // - - - - - - - - - - - - - - - - - - -
 // - - - - Encoder CONSTRUCTOR - - - - -
 // - - - - - - - - - - - - - - - - - - -
-Encoder::Encoder(int pinSignalA, int pinSignalB, int debugOut1, int debugOut2)
+Encoder::Encoder(int pinSignalA, int pinSignalB)
 {
     _pinSignalA = pinSignalA;
     _pinSignalB = pinSignalB;
-    _debugOut1 = debugOut1; 
-    _debugOut2 = debugOut2;
     pinMode(_pinSignalA, INPUT);
     pinMode(_pinSignalB, INPUT);
-    pinMode(_debugOut1, OUTPUT);
-    pinMode(_debugOut2, OUTPUT);
     count = 0;
     _state = 0;
 }
@@ -32,11 +28,6 @@ void Encoder::update()
 {
     int a = digitalRead(_pinSignalA);
     int b = digitalRead(_pinSignalB);
-   
-    //debug!
-    //digitalWrite(_debugOut1, a);
-    //digitalWrite(_debugOut2, b);
-    //debug!
 
     if(_state == 0){
         if(a){

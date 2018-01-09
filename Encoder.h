@@ -15,7 +15,7 @@
 class Encoder
 {
     public:
-        Encoder(int pinSignalA, int pinSignalB, int debugOut1, int debugOut2);
+        Encoder(int pinSignalA, int pinSignalB);
         void update();
         int count;
         int currentRot;
